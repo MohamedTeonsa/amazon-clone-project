@@ -38,16 +38,8 @@ const HeaderBoottom = () => {
                             initial={{ x: -500, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: .5 }}
                             className='w-[80%] md:w-[350px] h-full bg-white border border-black'>
                             <div className='w-full bg-amazon_light text-white py-2 px-6 flex items-center gap-4'>
-                                {
-                                    userInfo.image ? (
-                                        <img
-                                            className='w-10 h-10 rounded-full'
-                                            src={userInfo.image}
-                                            alt='image'
-                                        />
-                                    ) : <AccountCircleIcon />
+                                 <AccountCircleIcon />
 
-                                }
                                 {
                                     userInfo ? (
                                         <h3 className='font-titleFont font-bold text-lg tracking-wide'>{userInfo.userName}</h3>
