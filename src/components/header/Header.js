@@ -31,6 +31,7 @@ function Header() {
       dispatch(userSignOut())
     }).catch((error) => {
       // An error happened.
+      console.log('logout error',error)
     });
   }
   return (
