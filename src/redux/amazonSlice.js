@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     products: [],
-    userInfo: [],
+    userInfo: null,
 }
 
 export const amazonSlice = createSlice({
@@ -17,26 +17,33 @@ export const amazonSlice = createSlice({
                 state.products.push(action.payload)
             }
         },
-        incrementQuantity:(state,action)=>{
-            const item = state.products.find((item)=>item._id === action.payload)
+        incrementQuantity: (state, action) => {
+            const item = state.products.find((item) => item._id === action.payload)
             item.quantity++
         },
-         decrementQuantity:(state,action)=>{
-            const item = state.products.find((item)=>item._id === action.payload)
-            if(item.quantity === 1) {
-                item.quantity =1
-            }else{
+        decrementQuantity: (state, action) => {
+            const item = state.products.find((item) => item._id === action.payload)
+            if (item.quantity === 1) {
+                item.quantity = 1
+            } else {
                 item.quantity--
             }
         },
-        deleteItem:(state,action)=>{
-            state.products = state.products.filter((item)=>item._id !== action.payload)
+        deleteItem: (state, action) => {
+            state.products = state.products.filter((item) => item._id !== action.payload)
         },
-        resetCart:(state)=>{
-            state.products=[]
+        resetCart: (state) => {
+            state.products = []
+        },
+        setUserInfo: (state, action) => {
+            state.userInfo = action.payload
+        },
+        userSignOut:(state)=>{
+            state.userInfo=null;
         }
     }
 })
 
-export const { addToCart, deleteItem, resetCart, incrementQuantity, decrementQuantity } = amazonSlice.actions;
+
+export const { addToCart, deleteItem, resetCart, incrementQuantity, decrementQuantity, setUserInfo, userSignOut } = amazonSlice.actions;
 export default amazonSlice.reducer

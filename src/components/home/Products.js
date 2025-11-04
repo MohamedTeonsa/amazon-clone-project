@@ -35,7 +35,7 @@ const dispatch = useDispatch();
                                 alt="productImg"
                             />
                             <ul className='w-full h-36 bg-gray-100 absolute bottom-[-170px] flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-1 border-r group-hover:bottom-0 duration-700'>
-                                <li className='productLi'>Compare <sapn><ApiIcon /></sapn></li>
+                                <li className='productLi'>Compare <span><ApiIcon /></span></li>
                                 <li className='productLi'>Add to Cart <sapn><ShoppingCartIcon /></sapn></li>
                                 <li className='productLi'>View Details <sapn><ArrowCircleRightIcon /></sapn></li>
                                 <li className='productLi'>Add to Wish List <sapn><FavoriteIcon /></sapn></li>

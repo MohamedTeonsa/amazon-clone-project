@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import { logo } from '../assets'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { RotatingLines } from 'react-loader-spinner';
+import { motion } from 'framer-motion';
 
 
 const Registration = () => {
+    const navigate = useNavigate()
+    const auth = getAuth();
+
     const [clientName, setClientName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,7 +21,11 @@ const Registration = () => {
     const [errEmail, setErrEmail] = useState("");
     const [errPassword, setErrPassword] = useState("");
     const [errCPassword, setErrCPassord] = useState("");
+    const [firebaseErr, setFirebaseErr] = useState("");
 
+    // Loading start here
+    const [loading, setLoading] = useState(false);
+    const [successMsg, setSuccessMsg] = useState("");
     // handle function start
     const handleName = (e) => {
         setClientName(e.target.value);
@@ -50,6 +60,7 @@ const Registration = () => {
         };
         if (!email) {
             setErrEmail("Enter your email");
+            setFirebaseErr("");
         } else {
             if (emailValidation(email)) {
                 setErrEmail("Enter a valid email");
@@ -70,11 +81,35 @@ const Registration = () => {
             }
         }
         if (clientName && email && emailValidation && password && password.length >= 6 && cPassword && cPassword === password) {
-            console.log(clientName, email, password, cPassword);
+            // console.log(clientName, email, password, cPassword);
+            setLoading(true)
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    updateProfile(auth.currentUser, {
+                        displayName: clientName
+                    })
+                    // Signed up 
+                    const user = userCredential.user;
+                    setLoading(false)
+                    setSuccessMsg("Accouunt Created Successfully");
+                    setTimeout(() => {
+                        navigate("/signin")
+                    }, 3000)
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    if (errorCode.includes("auth/email-already-in-use")) {
+                        setFirebaseErr("Email Already in use, Try another one");
+                    }
+                    // ..
+                });
+            // firebase registration end here
             setClientName("");
             setEmail("");
             setPassword("");
             setCPassword("");
+            setFirebaseErr("");
         }
     }
     return (
@@ -119,6 +154,16 @@ const Registration = () => {
                                         >
                                             <span className='italic font-titleFont font-extrabold text-base'>!</span>
                                             {errEmail}
+                                        </p>
+                                    )
+                                }
+                                {
+                                    firebaseErr && (
+                                        <p
+                                            className='text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5'
+                                        >
+                                            <span className='italic font-titleFont font-extrabold text-base'>!</span>
+                                            {firebaseErr}
                                         </p>
                                     )
                                 }
@@ -169,6 +214,34 @@ const Registration = () => {
                             >
                                 Continue
                             </button>
+                            {
+                                loading && (
+                                    <div className='flex justify-center'>
+                                        <RotatingLines
+                                            strokeColor='#febd69'
+                                            strokeWidth={"5"}
+                                            animationDuration={"0.75"}
+                                            width={"50"}
+                                            visible={true}
+                                        />
+                                    </div>
+                                )
+                            }
+                            {
+                                successMsg && (
+                                    <div>
+                                        <motion.p
+                                            initial={{ y: 10, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ duration: 0.5 }}
+                                            className='text-ase font-titleFont font-semibold text-green-500 border-[1px] border-green-500 px-2 text-center '
+                                        >
+                                            {successMsg}
+                                        </motion.p>
+                                    </div>
+
+                                )
+                            }
                         </div>
                         <p className='text-xs text-black loading-4 mt-4'>By Continuing, you agree to Amazon's <span className='text-blue-600'>Conditions of Use</span> and <span className='text-blue-600'>Private Notice.</span></p>
                         <div>
