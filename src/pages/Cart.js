@@ -42,6 +42,7 @@ export default function Cart() {
                   className="w-full border-b border-gray-200 pb-4 flex flex-col sml:flex-row items-center gap-4"
                 >
                   {/* IMAGE PRODUIT */}
+                  {/* Ajustement: w-full sur mobile, w-1/5 à partir de md */}
                   <div className="w-full md:w-1/5 flex justify-center">
                     <img
                       className="h-40 md:h-52 object-contain rounded-md"
@@ -51,6 +52,7 @@ export default function Cart() {
                   </div>
 
                   {/* DETAILS PRODUIT */}
+                  {/* Ajustement: text-center sur mobile, text-left à partir de sml */}
                   <div className="w-full md:w-3/5 text-center sml:text-left">
                     <h2 className="font-semibold text-base xs:text-lg">{item.title}</h2>
                     <p className="text-sm text-gray-600 hidden sm:block">
@@ -61,7 +63,8 @@ export default function Cart() {
                     </p>
 
                     {/* QUANTITY */}
-                    <div className="bg-gray-100 flex justify-center sml:justify-start items-center gap-2 w-28 py-1 mt-2 rounded-md shadow">
+                    {/* Ajustement: justify-center sur mobile, justify-start à partir de sml */}
+                    <div className="bg-gray-100 flex justify-center sml:justify-start items-center gap-2 w-28 py-1 mt-2 rounded-md shadow mx-auto sml:mx-0">
                       <p
                         onClick={() => dispatch(decrementQuantity(item._id))}
                         className="cursor-pointer bg-gray-200 px-2 rounded hover:bg-gray-400 duration-200"
@@ -86,6 +89,7 @@ export default function Cart() {
                   </div>
 
                   {/* TOTAL PAR PRODUIT */}
+                  {/* Ajustement: justify-center sur mobile, justify-end à partir de sml */}
                   <div className="w-full sml:w-1/5 flex justify-center sml:justify-end">
                     <p className="text-base xs:text-lg font-semibold">
                       ${(item.price * item.quantity).toFixed(2)}
@@ -107,6 +111,7 @@ export default function Cart() {
           </div>
 
           {/* SECTION RÉSUMÉ */}
+          {/* Ajustement: h-auto sur mobile, h-52 à partir de lg */}
           <div className="w-full bg-white h-auto lg:h-52 rounded-lg shadow flex flex-col items-center justify-center p-4 gap-4">
             <div className="text-center text-sm xs:text-base">
               <CheckCircleIcon className="text-green-500 mb-1" />
